@@ -27,7 +27,7 @@
 
 
 ####1) ‘제니 오델'이라는 artist의 image title들 가져오기
-- query
+**query**
 ```
 SELECT images.title 
 FROM artists 
@@ -35,10 +35,10 @@ INNER JOIN images
 ON artists.id = images.artist_id 
 WHERE artists.name = '제니 오델';
 ```
-    - ``INNER JOIN``을 사용하면 특정 작가와 그 작가의 작품을 한 row로 볼 수 있게 된다. 
-    - 이렇게 나온 row들에서 ``WHERE``를 사용하여 작가의 이름이 '제니 오델'인 image title을 가져온다.
+- ``INNER JOIN``을 사용하면 특정 작가와 그 작가의 작품을 한 row로 볼 수 있게 된다. 
+- 이렇게 나온 row들에서 ``WHERE``를 사용하여 작가의 이름이 '제니 오델'인 image title을 가져온다.
 
-- return
+**return**
 ```
 +------------------+
 | title            |
@@ -49,7 +49,7 @@ WHERE artists.name = '제니 오델';
 ```
 
 ####2) ‘인상주의' artist의 image들 중 3개의 image 가져오기
-- query
+**query**
 ```
 SELECT images.*
 FROM artists
@@ -58,11 +58,11 @@ ON artists.id = images.artist_id
 WHERE artists.genre = '인상주의'
 LIMIT 3;
 ```
-    - ``INNER JOIN``을 사용하면 특정 작가와 그 작가의 작품을 한 row로 볼 수 있게 된다. 
-    - 이렇게 나온 row들에서 ``WHERE``를 사용하여 genre가 '인상주의'인 row들만 걸러낸다.
-    - ``LIMIT``의 count 갯수를 3으로 주어 3개의 이미지만 가져온다.
+- ``INNER JOIN``을 사용하면 특정 작가와 그 작가의 작품을 한 row로 볼 수 있게 된다. 
+- 이렇게 나온 row들에서 ``WHERE``를 사용하여 genre가 '인상주의'인 row들만 걸러낸다.
+- ``LIMIT``의 count 갯수를 3으로 주어 3개의 이미지만 가져온다.
 
-- return
+**return**
 ```
 +----+----------------------------------------------------------------------------------------------------+----------------------------+------+-----------+---------------------+
 | id | image_url                                                                                          | title                      | year | artist_id | description         |
@@ -78,7 +78,7 @@ LIMIT 3;
 ####3) images 테이블에 새로운 image 추가하기(query statement만)
 현재 images 테이블은 id를 제외한 모든 column이 ``null``인 row를 만들 수 있다. 하지만 의미있는 정보를 추가한다는 가정 하에 아래와 같은 query로 image를 추가하였다. 여기서 '의미있는 정보'란 artists 테이블에 등록된 작가의 작품이고 title과 image_url이 있는 작품의 정보이다.
 
-- query
+**query**
 ```
 INSERT INTO images(image_url, title, year,artist_id,description) 
 VALUES 
@@ -94,7 +94,7 @@ VALUES
 
 
 ####4) 가장 많은 image들을 가진 artist 가져오기
-- query
+**query**
 ```
 SELECT artists.*, COUNT(images.id) AS number_of_images
 FROM artists
@@ -104,12 +104,12 @@ GROUP BY artists.id
 ORDER BY number_of_images DESC
 LIMIT 1;
 ```
-    - ``INNER JOIN``을 사용하면 특정 작가와 그 작가의 작품을 한 row로 볼 수 있게 된다. 
-    - 이렇게 나온 row들을 ``GROUP BY``를 사용하여 artist의 id를 기준으로 그룹화한다. 2개 이상의 작품을 가진 작가들은 중복이 제거되어 하나의 row로 표현된다.
-    - 중복이 제거되면 작품의 갯수를 헤아릴 수 없기 때문에 중복되는 row의 갯수를 세어 number_of_images로 표시한다.
-    - number_of_images의 갯수를 기준으로 내림차순 정렬 후(``ORDER BY``), ``LIMIT`` count를 1로 설정하여 가장 많은 image를 가진 artist 정보를 가져온다.  
+- ``INNER JOIN``을 사용하면 특정 작가와 그 작가의 작품을 한 row로 볼 수 있게 된다. 
+- 이렇게 나온 row들을 ``GROUP BY``를 사용하여 artist의 id를 기준으로 그룹화한다. 2개 이상의 작품을 가진 작가들은 중복이 제거되어 하나의 row로 표현된다.
+- 중복이 제거되면 작품의 갯수를 헤아릴 수 없기 때문에 중복되는 row의 갯수를 세어 number_of_images로 표시한다.
+- number_of_images의 갯수를 기준으로 내림차순 정렬 후(``ORDER BY``), ``LIMIT`` count를 1로 설정하여 가장 많은 image를 가진 artist 정보를 가져온다.  
 
-- return
+**return**
 ```
 +-----+----------------------+------------+------------+--------------+---------------------+------------------+
 | id  | name                 | birth_year | death_year | country      | genre               | number_of_images |
