@@ -6,6 +6,7 @@
   - [제니 오델이라는 artist의 image-title들 가져오기](#1-제니-오델이라는-artist의-image-title들-가져오기)
   - [인상주의 artist의 image들 중 3개의 image 가져오기](#2-인상주의-artist의-image들-중-3개의-image-가져오기)
   - [images 테이블에 새로운 image 추가하기](#3-images-테이블에-새로운-image-추가하기query-statement만)
+  - [가장 많은 image들을 가진 artist 가져오기](#4-가장-많은-image들을-가진-artist-가져오기)
 - [CRUD](#crud)
 - [art_archive API](#art_archive-api)
 - [TDD](#tdd)
