@@ -303,3 +303,97 @@ Create, Read, Update, Delete의 약자이다. 데이터를 쓰고 읽고 수정�
 
   * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Internal Server Error" }`
+
+
+
+#### 3) artist 보기
+
+id가 일치하는 artist의 정보를 보여준다.
+
+* **URL**
+
+  /artist/id
+
+* **Method:**
+
+  `GET` 
+  
+*  **URL Params**
+
+   
+   **Required:**
+ 
+   PARAMETER | TYPE | DESCRIPTION
+   ------------ | ------------- | -------------
+   id | integer | 보고자 하는 artist의 id
+
+
+   **Optional:**
+ 
+   PARAMETER | TYPE | DESCRIPTION
+   ------------ | ------------- | -------------
+   images_detail | 0 or 1 | 1일 경우 작가의 작품 정보도 포함한다. 기본은 0.
+
+  
+
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+  
+  GET ``/artist/102``  
+
+  * **Code:** 200 <br />
+    **Content:** <br />
+  ```
+    /*------------------
+    images_detail이 0일 때
+    -------------------*/
+    {
+      "images_detail": 0,
+      "artist": {
+          "id": 102,
+          "name": "빈센트 반 고흐",
+          "birth_year": 1853,
+          "death_year": 1890,
+          "country": "네더란드",
+          "genre": "후기 인상주의",
+        },
+    }
+
+    /*------------------
+    images_detail이 1일 때
+    -------------------*/
+    {
+      "images_detail": 1,
+      "artist": {
+          "id": 102,
+          "name": "빈센트 반 고흐",
+          "birth_year": 1853,
+          "death_year": 1890,
+          "country": "네더란드",
+          "genre": "후기 인상주의",
+          "images" : [
+            {
+              "id": 1,
+              "image_url": "http://www.vggallery.com/painting/f_0467.jpg",
+              "title": "밤의 카페 테라스",
+              "year": 1888,
+              "description": "캔버스에 유채"
+            },
+            ...
+          ]
+      }
+    }
+  ```
+* **Error Response:**
+
+  * **Code:** 404 Not Found <br />
+    **Content:** `{ error : "Artist doesn't exist" }`
+
+  OR
+
+  * **Code:** 500 Internal Server Error <br />
+    **Content:** `{ error : "Internal Server Error" }`
