@@ -397,3 +397,73 @@ id가 일치하는 artist의 정보를 보여준다.
 
   * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Internal Server Error" }`
+
+
+
+#### 4) image 보기
+
+id가 일치하는 image의 정보를 보여준다.
+
+* **URL**
+
+  /image/id
+
+* **Method:**
+
+  `GET` 
+  
+*  **URL Params**
+
+   
+   **Required:**
+ 
+   PARAMETER | TYPE | DESCRIPTION
+   ------------ | ------------- | -------------
+   id | integer | 보고자 하는 image의 id
+
+
+   **Optional:**
+ 
+   None
+
+  
+
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+  
+  GET ``/image/1``  
+
+  * **Code:** 200 <br />
+    **Content:** <br />
+  ```
+    {
+      "image": {
+          "id": 1,
+          "image_url": "http://www.vggallery.com/painting/f_0467.jpg",
+          "title": "밤의 카페 테라스",
+          "year": 1888,
+          "description": "캔버스에 유채"
+          "arist": {
+            "id": 102,
+            "name": "빈센트 반 고흐",
+            "birth_year": 1853,
+            "death_year": 1890,
+            "country": "네더란드",
+            "genre": "후기 인상주의",
+          },
+      }
+    }
+  ```
+* **Error Response:**
+
+  * **Code:** 404 Not Found <br />
+    **Content:** `{ error : "Image doesn't exist" }`
+
+  OR
+
+  * **Code:** 500 Internal Server Error <br />
+    **Content:** `{ error : "Internal Server Error" }`
