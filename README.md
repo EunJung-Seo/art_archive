@@ -168,7 +168,7 @@ Create, Read, Update, Delete의 약자이다. 데이터를 쓰고 읽고 수정�
 
 * **Success Response:**
   
-  
+  GET ``/artists?name=빈센트 반 고흐``
 
   * **Code:** 200 <br />
     **Content:** <br />
@@ -231,3 +231,75 @@ Create, Read, Update, Delete의 약자이다. 데이터를 쓰고 읽고 수정�
     **Content:** `{ error : "Internal Server Error" }`
 
 
+#### 2) images 목록
+
+현재 저장되어 있는 image들의 목록을 가져온다. parameter들을 활용하면 원하는 image 목록을 가져올 수 있다.
+
+* **URL**
+
+  /images
+
+* **Method:**
+
+  `GET` 
+  
+*  **URL Params**
+
+   
+   **Required:**
+ 
+   None
+
+   **Optional:**
+ 
+   PARAMETER | TYPE | DESCRIPTION
+   ------------ | ------------- | -------------
+   title | string | 입력된 title과 일치하는 image의 정보를 리턴한다.
+   artist | string | 입력된 artist의 image 목록을 리턴한다.
+   count |integer | 입력된 count 갯수만큼 목록을 보여준다.
+   offset |integer | count와 함께 사용된다. 입력된 offset부터 count 갯수만큼 목록을 보여준다.
+
+  
+
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+  
+  GET ``/images?artist=빈센트 반 고흐``  
+
+  * **Code:** 200 <br />
+    **Content:** <br />
+  ```
+    {
+      "list": [
+        {
+          "id": 1,
+          "image_url": "http://www.vggallery.com/painting/f_0467.jpg",
+          "title": "밤의 카페 테라스",
+          "year": 1888,
+          "description": "캔버스에 유채"
+          "artist" : {
+              "id": 102,
+              "name": "빈센트 반 고흐",
+              "birth_year": 1853,
+              "death_year": 1890,
+              "country": "네더란드",
+              "genre": "후기 인상주의",
+          },
+        },
+        ...
+      ]
+    }
+  ```
+* **Error Response:**
+
+  * **Code:** 400 Bad Request <br />
+    **Content:** `{ error : "Invalid Request. Please check the syntax" }`
+
+  OR
+
+  * **Code:** 500 Internal Server Error <br />
+    **Content:** `{ error : "Internal Server Error" }`
