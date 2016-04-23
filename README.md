@@ -128,3 +128,106 @@ Create, Read, Update, Delete의 약자이다. 데이터를 쓰고 읽고 수정�
 - Delete : artist 삭제, image 삭제
 
 이 네 가지 기능을 사용해 데이터를 관리한다.
+
+
+### art_archive API
+#### 1) artists 목록
+
+현재 저장되어 있는 artist들의 목록을 가져온다. parameter들을 활용하면 원하는 artists 목록을 가져올 수 있다.
+
+* **URL**
+
+  /artists
+
+* **Method:**
+
+  `GET` 
+  
+*  **URL Params**
+
+   
+   **Required:**
+ 
+   None
+
+   **Optional:**
+ 
+   PARAMETER | TYPE | DESCRIPTION
+   ------------ | ------------- | -------------
+   name | string | 입력된 name과 일치하는 작가의 정보를 리턴한다.
+   count |integer | 입력된 count 갯수만큼 목록을 보여준다.
+   offset |integer | count와 함께 사용된다. 입력된 offset부터 count 갯수만큼 목록을 보여준다. 
+   image_detail | 0 or 1 | 1일 경우 작가의 작품 정보도 포함한다. 기본은 0.
+
+  
+
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+  
+  
+
+  * **Code:** 200 <br />
+    **Content:** <br />
+    ```
+    /*---------------------
+    images_detail이 0인 경우
+    ---------------------*/
+    {
+      "images_detail": 0,
+      "list": [
+        {
+          "id": 102,
+          "name": "빈센트 반 고흐",
+          "birth_year": 1853,
+          "death_year": 1890,
+          "country": "네더란드",
+          "genre": "후기 인상주의",
+        },
+        ...
+      ]
+    }
+
+
+    /*---------------------
+    images_detail이 1인 경우
+    ---------------------*/
+    {
+      "images_detail": 1,
+      "list": [
+        {
+          "id": 102,
+          "name": "빈센트 반 고흐",
+          "birth_year": 1853,
+          "death_year": 1890,
+          "country": "네더란드",
+          "genre": "후기 인상주의",
+          "images" : [
+            {
+              "id": 1,
+              "image_url": "http://www.vggallery.com/painting/f_0467.jpg",
+              "title": "밤의 카페 테라스",
+              "year": 1888,
+              "description": "캔버스에 유채",
+            },
+            ...
+          ]
+        },
+        ...
+      ]
+    }
+    ```
+* **Error Response:**
+
+  * **Code:** 400 Bad Request <br />
+    **Content:** `{ error : "Invalid Request. Please check the syntax" }`
+
+  OR
+
+  * **Code:** 500 Internal Server Error <br />
+    **Content:** `{ error : "Internal Server Error" }`
+
+
