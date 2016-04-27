@@ -237,10 +237,6 @@ Create, Read, Update, Delete의 약자이다. 데이터를 쓰고 읽고 수정�
     ```
 * **Error Response:**
 
-  * **Code:** 400 Bad Request <br />
-    **Content:** `{ error : "Invalid Request. Please check the syntax" }`
-
-  OR
 
   * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Internal Server Error" }`
@@ -311,10 +307,6 @@ Create, Read, Update, Delete의 약자이다. 데이터를 쓰고 읽고 수정�
   ```
 * **Error Response:**
 
-  * **Code:** 400 Bad Request <br />
-    **Content:** `{ error : "Invalid Request. Please check the syntax" }`
-
-  OR
 
   * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Internal Server Error" }`
