@@ -15,6 +15,27 @@ class Artist(db.Model):
         backref='artist',
     )
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'birth_year': self.birth_year,
+            'death_year': self.death_year,
+            'country': self.country,
+            'genre': self.genre,
+        }
+
+    def serialize_with_images(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'birth_year': self.birth_year,
+            'death_year': self.death_year,
+            'country': self.country,
+            'genre': self.genre,
+            "images" : [image.serialize() for image in self.images]
+        }
+
 
 class Image(db.Model):
     __tablename__ = 'images'
@@ -28,3 +49,12 @@ class Image(db.Model):
         db.ForeignKey('artists.id')
     )
     description = db.Column(db.String(255))
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'image_url': self.image_url,
+            'title': self.title,
+            'year': self.year,
+            'description': self.description,
+        }
