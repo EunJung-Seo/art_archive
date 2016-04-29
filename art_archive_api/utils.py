@@ -1,16 +1,14 @@
 from flask import abort
 
 
-def get_by_name_or_all(model, name):
+def get_artist_by_name(model, name):
     objects = []
-    objects_count = 0
 
     if name:
         objects = model.query.filter_by(name=name)
-        objects_count = objects.count()
     else:
-        objects = model.query.all()
-        objects_count = model.query.count()
+        objects = model.query
+    objects_count = objects.count()
     return objects, objects_count
 
 def slice_query_set(offset, count, objects_count, objects):
@@ -20,6 +18,7 @@ def slice_query_set(offset, count, objects_count, objects):
         else:
             count = objects_count
         objects = objects[offset:count]
+    return objects
 
 def serialize_artist(artist, images_detail):
     json_data = {}
