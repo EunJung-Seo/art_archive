@@ -1,3 +1,4 @@
+
 import os 
 
 from flask import Flask
@@ -12,9 +13,8 @@ track_modifications = app.config.setdefault(
 )
 db = SQLAlchemy(app)
 
-@app.route('/')
-def hello():
-    return "Hello World!"
+from views import *
+
 
 if __name__ == '__main__':
     app.run()
