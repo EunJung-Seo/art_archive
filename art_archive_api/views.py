@@ -68,6 +68,13 @@ def get_images():
 
     return jsonify({"list": json_list})
 
+@app.route('/image/<int:id>')
+def get_image(id):
+    image = get_or_abort(Image, id)
+    json_data = image.serialize_with_artist()
+
+    return jsonify({"image": json_data})
+
 # Error Response
 @app.errorhandler(404)
 def page_not_found(error):
