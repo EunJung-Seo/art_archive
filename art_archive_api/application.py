@@ -14,6 +14,7 @@ track_modifications = app.config.setdefault(
 db = SQLAlchemy(app)
 
 from views import *
+from errors import *
 
 
 if __name__ == '__main__':
