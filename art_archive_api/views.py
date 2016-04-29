@@ -2,6 +2,7 @@ from flask import jsonify, request
 
 from application import app
 from models import Artist
+from utils import *
 
 
 @app.route('/')
@@ -18,31 +19,14 @@ def get_artists():
     count = request.args.get('count', 0, type=int)
     images_detail = request.args.get('images_detail', 0, type=int)
 
-    # from IPython import embed;embed()
+    artists, artists_count = get_by_name_or_all(Artist, name)
 
-    # name parameter가 존재하는 경우
-    if name:
-        artists = Artist.query.filter_by(name=name)
-        artists_count = artists.count()
-    else: 
-        artists = Artist.query.all()
-        artists_count = Artist.query.count()
+    slice_query_set(offset, count, artists_count, artists)
 
-
-    # offset parameter가 유효한 경우 
-    if offset >= 0 and artists_count > offset:
-        if count:
-            count += offset
-        else:
-            count = artists_count
-        artists = artists[offset:count]
-
-    # images_detail이 1인 경우
-    if images_detail:
-        json_list = [artist.serialize_with_images() for artist in artists]
-    else:
-        json_list = [artist.serialize() for artist in artists]
-
+    json_list = [
+        serialize_artist(artist, images_detail) 
+        for artist in artists
+    ]
 
     return jsonify({
             "images_detail": images_detail,
@@ -54,13 +38,8 @@ def get_artists():
 def get_artist(id):
     images_detail = request.args.get('images_detail', 0, type=int)
 
-    artist = Artist.query.get_or_404(id)
-
-    # images_detail이 1인 경우
-    if images_detail:
-        json_data = artist.serialize_with_images()
-    else:
-        json_data = artist.serialize()
+    artist = get_or_abort(Artist, id)
+    json_data = serialize_artist(artist, images_detail)
 
     return jsonify({
             "images_detail": images_detail,
@@ -71,16 +50,14 @@ def get_artist(id):
 # Error Response
 @app.errorhandler(404)
 def page_not_found(error):
-    endpoint = request.url_rule.endpoint
-    if endpoint == "get_artist":
-        response = jsonify(
-            {
-                "error": "Artist doesn't exist",
-            }
-        )
-    else:
-        response = jsonify({'error': 'Not Found'})
+    response = jsonify({'error': 'Not Found'})
     response.status_code = 404
+    return response
+
+@app.errorhandler(422)
+def unprocessable_entity(error):
+    response = jsonify({'error': 'Unprocessable Entity'})
+    response.status_code = 422
     return response
 
 @app.errorhandler(500)
