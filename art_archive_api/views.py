@@ -49,3 +49,21 @@ def get_artists():
             "list": json_list,
         }
     )
+
+@app.route('/artist/<int:id>')
+def get_artist(id):
+    images_detail = request.args.get('images_detail', 0, type=int)
+
+    artist = Artist.query.get_or_404(id)
+
+    # images_detail이 1인 경우
+    if images_detail:
+        json_data = artist.serialize_with_images()
+    else:
+        json_data = artist.serialize()
+
+    return jsonify({
+            "images_detail": images_detail,
+            "artist": json_data,
+        }
+    )
