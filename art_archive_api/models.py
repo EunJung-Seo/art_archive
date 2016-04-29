@@ -58,3 +58,13 @@ class Image(db.Model):
             'year': self.year,
             'description': self.description,
         }
+
+    def serialize_with_artist(self):
+        return {
+            'id': self.id,
+            'image_url': self.image_url,
+            'title': self.title,
+            'year': self.year,
+            'artist': self.artist.serialize(),
+            'description': self.description,
+        }
