@@ -21,7 +21,7 @@ def get_artists():
 
     artists, artists_count = get_by_name_or_all(Artist, name)
 
-    slice_query_set(offset, count, artists_count, artists)
+    artists = slice_query_set(offset, count, artists_count, artists)
 
     json_list = [
         serialize_artist(artist, images_detail) 
