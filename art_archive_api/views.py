@@ -1,7 +1,7 @@
 from flask import jsonify, request
 
 from application import app
-from models import Artist
+from models import Artist, Image
 from utils import *
 
 
@@ -46,6 +46,27 @@ def get_artist(id):
             "artist": json_data,
         }
     )
+
+@app.route('/images/')
+def get_images():
+    images = []
+    images_count = 0
+
+    artist_name = request.args.get('artist')
+    title = request.args.get('title')
+    offset = request.args.get('offset', 0, type=int)
+    count = request.args.get('count', 0, type=int)
+
+    images, images_count = get_images_by_title(Image, title)
+    images, images_count = get_images_by_artist(Image, Artist, images, artist_name)
+    images = slice_query_set(offset, count, images_count, images)
+
+    json_list = [
+        image.serialize_with_artist()
+        for image in images
+    ]
+
+    return jsonify({"list": json_list})
 
 # Error Response
 @app.errorhandler(404)
