@@ -19,7 +19,7 @@ def get_artists():
     count = request.args.get('count', 0, type=int)
     images_detail = request.args.get('images_detail', 0, type=int)
 
-    artists, artists_count = get_by_name_or_all(Artist, name)
+    artists, artists_count = get_artist_by_name(Artist, name)
 
     artists = slice_query_set(offset, count, artists_count, artists)
 
