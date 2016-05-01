@@ -1,7 +1,7 @@
 from flask import jsonify, request
 
 from application import app
-from models import Artist
+from models import Artist, Image
 from utils import *
 
 
@@ -19,7 +19,7 @@ def get_artists():
     count = request.args.get('count', 0, type=int)
     images_detail = request.args.get('images_detail', 0, type=int)
 
-    artists, artists_count = get_by_name_or_all(Artist, name)
+    artists, artists_count = get_artist_by_name(Artist, name)
 
     artists = slice_query_set(offset, count, artists_count, artists)
 
@@ -47,21 +47,30 @@ def get_artist(id):
         }
     )
 
-# Error Response
-@app.errorhandler(404)
-def page_not_found(error):
-    response = jsonify({'error': 'Not Found'})
-    response.status_code = 404
-    return response
+@app.route('/images/')
+def get_images():
+    images = []
+    images_count = 0
 
-@app.errorhandler(422)
-def unprocessable_entity(error):
-    response = jsonify({'error': 'Unprocessable Entity'})
-    response.status_code = 422
-    return response
+    artist_name = request.args.get('artist')
+    title = request.args.get('title')
+    offset = request.args.get('offset', 0, type=int)
+    count = request.args.get('count', 0, type=int)
 
-@app.errorhandler(500)
-def internal_server_error(error):
-    response = jsonify({'error': 'Internal Server Error'})
-    response.status_code = 500
-    return response
+    images, images_count = get_images_by_title(Image, title)
+    images, images_count = get_images_by_artist(Image, Artist, images, artist_name)
+    images = slice_query_set(offset, count, images_count, images)
+
+    json_list = [
+        image.serialize_with_artist()
+        for image in images
+    ]
+
+    return jsonify({"list": json_list})
+
+@app.route('/image/<int:id>')
+def get_image(id):
+    image = get_or_abort(Image, id)
+    json_data = image.serialize_with_artist()
+
+    return jsonify({"image": json_data})

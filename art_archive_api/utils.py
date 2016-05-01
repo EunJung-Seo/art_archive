@@ -34,3 +34,22 @@ def get_or_abort(model, object_id, code=422):
     """
     result = model.query.get(object_id)
     return result or abort(code)
+
+def get_images_by_title(model, title):
+    objects = []
+
+    if title:
+        objects = model.query.filter_by(title=title)
+    else:
+        objects = model.query
+    return objects, objects.count()
+
+def get_images_by_artist(model_image, model_artist, images, name):
+    if name:
+        images = images.join(
+            model_artist,
+            model_image.artist_id == model_artist.id
+        ).filter(
+            model_artist.name == name
+        )
+    return images, images.count()
