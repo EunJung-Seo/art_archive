@@ -41,7 +41,7 @@
 
 
 
-####1) ‘제니 오델'이라는 artist의 image title들 가져오기
+#### 1) ‘제니 오델'이라는 artist의 image title들 가져오기
 **query**
 ```
 SELECT images.title 
@@ -63,7 +63,7 @@ WHERE artists.name = '제니 오델';
 1 row in set (0.00 sec)
 ```
 
-####2) ‘인상주의' artist의 image들 중 3개의 image 가져오기
+#### 2) ‘인상주의' artist의 image들 중 3개의 image 가져오기
 **query**
 ```
 SELECT images.*
@@ -90,7 +90,7 @@ LIMIT 3;
 ```
 
 
-####3) images 테이블에 새로운 image 추가하기(query statement만)
+#### 3) images 테이블에 새로운 image 추가하기(query statement만)
 현재 images 테이블은 id를 제외한 모든 column이 ``null``인 row를 만들 수 있다. 하지만 의미있는 정보를 추가한다는 가정 하에 아래와 같은 query로 image를 추가하였다. 여기서 '의미있는 정보'란 artists 테이블에 등록된 작가의 작품이고 title과 image_url이 있는 작품의 정보이다.
 
 **query**
@@ -108,7 +108,7 @@ VALUES
  
 
 
-####4) 가장 많은 image들을 가진 artist 가져오기
+#### 4) 가장 많은 image들을 가진 artist 가져오기
 **query**
 ```
 SELECT artists.*, COUNT(images.id) AS number_of_images
